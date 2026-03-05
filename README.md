@@ -76,4 +76,4 @@ A comprehensive Customer Relationship Management (CRM) built from the ground up 
 * **Email:** danielnunda@gmail.com / regildaniel2019@gmail.com
 
 ---
-*Created automatically to maintain code organization and documentation standard.*
+
