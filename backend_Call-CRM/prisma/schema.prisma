@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+}
+
+enum ClientStatus {
+  NEW
+  IN_PROGRESS
+  INTERESTED
+  NOT_INTERESTED
+  CONVERTED
+  UNREACHABLE
+  KP_SENT
+  LPR_FOUND
+  CALLBACK
+  ORDER
+  BAD_NUMBER
+  NO_ANSWER
+  CLIENT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  phone     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(MANAGER)
+  isVerified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects  Project[]
+  calls     Call[]
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  status      String   @default("ACTIVE")
+  limitCalls  Int?
+  managerId   String?
+  manager     User?    @relation(fields: [managerId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  clients     Client[]
+  calls       Call[]
+}
+
+model Client {
+  id          String   @id @default(uuid())
+  name        String
+  phone       String   @unique
+  inn         String?  @unique
+  email       String?
+  company     String?
+  region      String?
+  
+  status      ClientStatus @default(NEW)
+  tags        String[]     @default([])
+  responsible String?
+  notes       String?
+  
+  projectId   String?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  calls       Call[]
+}
+
+model Call {
+  id          String   @id @default(uuid())
+  
+  clientId    String
+  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  projectId   String?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  duration    Int?     // Seconds
+  status      String   // e.g., "completed", "missed"
+  result      String?  // e.g., "interested", "callback"
+  recordingUrl String?
+  
+  timestamp   DateTime @default(now())
+  createdAt   DateTime @default(now())
+}
+
+model SaleScript {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   // Text or JSON
+  category  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ObjectionTemplate {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   // Text or JSON
+  type      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

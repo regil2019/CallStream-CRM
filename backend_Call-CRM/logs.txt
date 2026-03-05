@@ -1,0 +1,28 @@
+
+> backend_call-crm-engine@1.0.0 dev /home/regil/projects/CRM_SYSTEM/backend_Call-CRM
+> ts-node-dev --respawn --transpile-only src/server.ts
+
+[INFO] 17:55:22 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.9.3)
+[32minfo[39m: ✔ Database connected successfully {"timestamp":"2026-03-05T12:55:23.482Z"}
+Workers started
+[32minfo[39m: ✔ Server is running on port 3001 {"timestamp":"2026-03-05T12:55:23.489Z"}
+[INFO] 18:19:37 Restarting: /home/regil/projects/CRM_SYSTEM/backend_Call-CRM/src/services/auth.service.ts has been modified
+[32minfo[39m: ✔ Database connected successfully {"timestamp":"2026-03-05T13:19:39.008Z"}
+Workers started
+[32minfo[39m: ✔ Server is running on port 3001 {"timestamp":"2026-03-05T13:19:39.016Z"}
+[INFO] 18:21:02 Restarting: /home/regil/projects/CRM_SYSTEM/backend_Call-CRM/src/controllers/auth.controller.ts has been modified
+[32minfo[39m: ✔ Database connected successfully {"timestamp":"2026-03-05T13:21:03.719Z"}
+Workers started
+[32minfo[39m: ✔ Server is running on port 3001 {"timestamp":"2026-03-05T13:21:03.724Z"}
+[INFO] 18:21:13 Restarting: /home/regil/projects/CRM_SYSTEM/backend_Call-CRM/src/controllers/client.controller.ts has been modified
+[32minfo[39m: ✔ Database connected successfully {"timestamp":"2026-03-05T13:21:14.391Z"}
+Workers started
+[32minfo[39m: ✔ Server is running on port 3001 {"timestamp":"2026-03-05T13:21:14.398Z"}
+[INFO] 18:23:04 Restarting: /home/regil/projects/CRM_SYSTEM/backend_Call-CRM/src/services/auth.service.ts has been modified
+[32minfo[39m: ✔ Database connected successfully {"timestamp":"2026-03-05T13:23:05.290Z"}
+Workers started
+[32minfo[39m: ✔ Server is running on port 3001 {"timestamp":"2026-03-05T13:23:05.296Z"}
+[INFO] 18:23:16 Restarting: /home/regil/projects/CRM_SYSTEM/backend_Call-CRM/src/services/stats.service.ts has been modified
+[32minfo[39m: ✔ Database connected successfully {"timestamp":"2026-03-05T13:23:17.702Z"}
+Workers started
+[32minfo[39m: ✔ Server is running on port 3001 {"timestamp":"2026-03-05T13:23:17.707Z"}
