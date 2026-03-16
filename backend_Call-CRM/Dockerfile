@@ -2,8 +2,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies first (for better caching)
+# Install dependencies first
 COPY package.json pnpm-lock.yaml ./
+COPY prisma ./prisma/
 RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 # Copy source and prisma schema

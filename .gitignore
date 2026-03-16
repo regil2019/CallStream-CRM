@@ -1,0 +1,6 @@
+koyeb_env.md
+.env
+node_modules/
+dist/
+build/
+*.log
