@@ -2,8 +2,8 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies for Prisma and Bcrypt in Alpine
-RUN apk add --no-cache libc6-compat openssl python3 make g++
+# Install dependencies for Prisma in Alpine
+RUN apk add --no-cache libc6-compat openssl
 
 # Install dependencies first
 COPY package.json pnpm-lock.yaml ./

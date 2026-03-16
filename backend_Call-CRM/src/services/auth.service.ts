@@ -1,5 +1,5 @@
 import prisma from "../utils/prisma";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { User, Role } from "@prisma/client";
 import { z } from "zod";

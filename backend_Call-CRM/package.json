@@ -26,7 +26,7 @@
   "dependencies": {
     "@prisma/client": "5.22.0",
     "axios": "^1.6.0",
-    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "bullmq": "^5.0.0",
     "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
@@ -44,7 +44,7 @@
     "zod": "^3.22.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.0",
@@ -56,10 +56,5 @@
     "prisma": "5.22.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "bcrypt"
-    ]
   }
 }
