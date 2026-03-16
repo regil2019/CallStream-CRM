@@ -14,6 +14,7 @@ Copie os valores dessa tabela e os adicione na aba **Environment variables** do 
 | `REDIS_TLS` | `true` |
 | `JWT_SECRET` | `coloque-uma-senha-secreta-ficticia-aqui` |
 | `UPLOAD_DIR` | `uploads` |
+| `PORT` | `8000` (Deve ser igual à porta configurada no painel do Koyeb) |
 
 > [!IMPORTANT]  
 > **Aviso sobre o Upstash (REDIS_TLS)**
