@@ -29,6 +29,11 @@ Built with modern technologies to assure high performance, strict type safety, a
 * **Backend:** Node.js, Express, TypeScript, Prisma ORM, PostgreSQL.
 * **Инфраструктура:** Docker & Docker Compose, Redis (для очередей и кэширования), BullMQ.
 
+### 🌍 Ссылки на продакшн (Production Links)
+* **Frontend (Vercel):** [https://call-stream-crm.vercel.app/](https://call-stream-crm.vercel.app/)
+* **Backend API (Koyeb):** [https://extraordinary-christabel-call-crm-d010795c.koyeb.app/](https://extraordinary-christabel-call-crm-d010795c.koyeb.app/)
+* **Database (Neon):** PostgreSQL via Neon Serverless
+
 ### ⚙️ Установка и запуск (Локально)
 1. Склонируйте репозиторий: `git clone <repo-url>`
 2. Перейдите в папку backend: `cd backend_Call-CRM`
@@ -60,6 +65,11 @@ A comprehensive Customer Relationship Management (CRM) built from the ground up 
 * **Frontend:** React 18, Vite, TypeScript, Tailwind CSS, Framer Motion, Recharts.
 * **Backend:** Node.js, Express, TypeScript, Prisma ORM, PostgreSQL.
 * **Infrastructure:** Docker & Docker Compose, Redis (Queue/Cache), BullMQ.
+
+### 🌍 Production Links
+* **Frontend (Vercel):** [https://call-stream-crm.vercel.app/](https://call-stream-crm.vercel.app/)
+* **Backend API (Koyeb):** [https://extraordinary-christabel-call-crm-d010795c.koyeb.app/](https://extraordinary-christabel-call-crm-d010795c.koyeb.app/)
+* **Database (Neon):** PostgreSQL via Neon Serverless
 
 ### ⚙️ Setup & Installation (Local Development)
 1. Clone the repository: `git clone <repo-url>`
