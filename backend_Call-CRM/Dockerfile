@@ -2,6 +2,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Install dependencies for Prisma in Alpine
+RUN apk add --no-cache libc6-compat openssl
+
 # Install dependencies first
 COPY package.json pnpm-lock.yaml ./
 COPY prisma ./prisma/
@@ -20,6 +23,9 @@ RUN pnpm build
 FROM node:20-alpine
 
 WORKDIR /app
+
+# Install dependencies for Prisma in Alpine
+RUN apk add --no-cache libc6-compat openssl
 
 # Install pnpm globally to run migrations if needed
 RUN npm install -g pnpm
