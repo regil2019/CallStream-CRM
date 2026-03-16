@@ -7,7 +7,7 @@ import {
   deleteProject,
 } from "../controllers/project.controller";
 
-const router = Router();
+const router: Router = Router();
 
 router.post("/", createProject);
 router.get("/", getProjects);

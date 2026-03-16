@@ -3,7 +3,7 @@ import * as clientController from "../controllers/client.controller";
 import * as clientUploadController from "../controllers/clientUpload.controller";
 import { upload } from "../middlewares/upload";
 
-const router = Router();
+const router: Router = Router();
 
 router.post("/", clientController.createClient);
 router.post(

@@ -11,7 +11,7 @@ import { authenticate } from "../middlewares/auth";
 import prisma from "../utils/prisma";
 import { uploadQueue } from "../services/queue.service";
 
-const router = Router();
+const router: Router = Router();
 
 // Public
 router.get("/health", async (req, res) => {

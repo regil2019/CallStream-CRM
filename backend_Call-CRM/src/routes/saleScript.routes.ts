@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as saleScriptController from "../controllers/saleScript.controller";
 import { authenticate } from "../middlewares/auth";
 
-const router = Router();
+const router: Router = Router();
 
 router.post("/", authenticate, saleScriptController.createScript);
 router.get("/", authenticate, saleScriptController.getScripts);

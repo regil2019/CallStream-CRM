@@ -3,7 +3,7 @@ import { register, verify, login, getMe } from "../controllers/auth.controller";
 import { authLimiter } from "../middlewares/rateLimit";
 import { authenticate } from "../middlewares/auth";
 
-const router = Router();
+const router: Router = Router();
 
 // @route   POST /api/v1/auth/register
 // @desc    Register a new user (Manager), sends SMS code

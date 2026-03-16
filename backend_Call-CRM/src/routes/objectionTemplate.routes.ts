@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as templateController from "../controllers/objectionTemplate.controller";
 import { authenticate } from "../middlewares/auth";
 
-const router = Router();
+const router: Router = Router();
 
 router.post("/", authenticate, templateController.createTemplate);
 router.get("/", authenticate, templateController.getTemplates);
