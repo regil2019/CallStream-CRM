@@ -1,7 +1,7 @@
 import prisma from "../utils/prisma";
 import bcrypt from "bcryptjs";
 import jwt, { SignOptions } from "jsonwebtoken";
-import { User, Role } from "@prisma/client";
+import { User, Role, Prisma } from "@prisma/client";
 import { z } from "zod";
 import Redis from "ioredis";
 
@@ -24,15 +24,30 @@ const generateToken = (user: User): string => {
 };
 
 export const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  name: z.string().optional(),
+  email: z.string().email("Некорректный формат email"),
+  password: z.string().min(6, "Пароль должен быть не менее 6 символов"),
+  name: z.string().min(1, "Имя обязательно"),
   phone: z
     .string()
-    .regex(/^\+7\d{10}$/, "Телефон должен быть в формате +7XXXXXXXXXX")
-    .optional()
-    .nullable()
-    .or(z.literal("").transform(() => null)),
+    .transform((val) => val.replace(/[^\d+]/g, ""))
+    .refine((val) => {
+      if (!val) return true;
+      // Allow +7 or 8 followed by 10 digits, or just 10 digits
+      const phoneRegex = /^(\+7|7|8)?\d{10}$/;
+      return phoneRegex.test(val);
+    }, "Некорректный формат телефона")
+    .transform((val) => {
+      if (!val) return undefined;
+      let digits = val.replace(/[^\d]/g, "");
+      if (digits.length === 10) return "+7" + digits;
+      if (digits.length === 11) {
+        if (digits.startsWith("8") || digits.startsWith("7")) {
+          return "+7" + digits.slice(1);
+        }
+      }
+      return val;
+    })
+    .optional(),
 });
 
 export const loginSchema = z
@@ -55,7 +70,10 @@ export class AuthService {
   static async register(data: z.infer<typeof registerSchema>) {
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [{ email: data.email }, { phone: data.phone }],
+        OR: [
+          { email: data.email },
+          data.phone ? { phone: data.phone } : undefined,
+        ].filter(Boolean) as Prisma.UserWhereInput[],
       },
     });
 
@@ -77,8 +95,8 @@ export class AuthService {
       data: {
         email: data.email,
         password: hashedPassword,
-        name: data.name,
-        phone: data.phone,
+        name: data.name ?? undefined,
+        phone: (data.phone ?? undefined) as any,
         role: Role.MANAGER,
         isVerified: true,
       },

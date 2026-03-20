@@ -16,6 +16,10 @@ export const globalErrorHandler = (
     stack: err.stack,
     path: req.originalUrl,
     method: req.method,
+    body: req.method !== "GET" ? req.body : undefined,
+    params: req.params,
+    query: req.query,
+    error: err,
   });
 
   if (err instanceof ZodError) {
