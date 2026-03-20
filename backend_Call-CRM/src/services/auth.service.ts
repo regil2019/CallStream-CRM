@@ -29,7 +29,10 @@ export const registerSchema = z.object({
   name: z.string().optional(),
   phone: z
     .string()
-    .regex(/^\+7\d{10}$/, "Телефон должен быть в формате +7XXXXXXXXXX"),
+    .regex(/^\+7\d{10}$/, "Телефон должен быть в формате +7XXXXXXXXXX")
+    .optional()
+    .nullable()
+    .or(z.literal("").transform(() => null)),
 });
 
 export const loginSchema = z

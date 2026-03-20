@@ -15,7 +15,7 @@ export const authService = {
     email: string;
     password: string;
     name: string;
-    phone: string;
+    phone?: string;
   }) {
     const response = await apiClient.post<any>("/auth/register", userData);
     const { token, user } = response.data.data;

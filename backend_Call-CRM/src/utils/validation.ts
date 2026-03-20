@@ -58,7 +58,10 @@ export const phoneSchema = z
   .refine(
     isValidRussianPhone,
     "Некорректный формат телефона. Используйте формат +7XXXXXXXXXX или 8XXXXXXXXXX",
-  );
+  )
+  .optional()
+  .nullable()
+  .or(z.literal("").transform(() => null));
 
 export const innSchema = z
   .string()

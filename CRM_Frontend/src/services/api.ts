@@ -30,7 +30,7 @@ class ApiService {
     return authService.login({ email, password });
   }
 
-  async register(email: string, password: string, name: string, phone: string) {
+  async register(email: string, password: string, name: string, phone?: string) {
     return authService.register({ email, password, name, phone });
   }
 

@@ -37,19 +37,23 @@ export function Register({ onToggleMode }: RegisterProps) {
       return;
     }
 
-    // Sanitize and normalize phone number
-    let cleanPhone = phone.replace(/[^\d+]/g, "");
-    if (cleanPhone.startsWith("8") && cleanPhone.length === 11) {
-      cleanPhone = "+7" + cleanPhone.slice(1);
-    }
+    let cleanPhone: string | undefined = undefined;
+    if (phone) {
+      // Sanitize and normalize phone number
+      cleanPhone = phone.replace(/[^\d+]/g, "");
+      if (cleanPhone.startsWith("8") && cleanPhone.length === 11) {
+        cleanPhone = "+7" + cleanPhone.slice(1);
+      }
 
-    // Validate Russian phone number (+7XXXXXXXXXX)
-    const phoneRegex = /^\+7\d{10}$/;
-    if (!phoneRegex.test(cleanPhone)) {
-      setError(
-        "Номер телефона должен быть в формате +7XXXXXXXXXX (например, +79161234567)",
-      );
-      return;
+      // Validate Russian phone number (+7XXXXXXXXXX)
+      const phoneRegex = /^\+7\d{10}$/;
+      if (!phoneRegex.test(cleanPhone)) {
+        setError(
+          "Номер телефона должен быть в формате +7XXXXXXXXXX (например, +79161234567)",
+        );
+        setLoading(false);
+        return;
+      }
     }
 
     setLoading(true);
@@ -128,14 +132,13 @@ export function Register({ onToggleMode }: RegisterProps) {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Телефон *
+                Телефон
               </label>
               <input
                 type="tel"
                 placeholder="+79161234567"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                required
                 autoComplete="tel"
                 className={`w-full px-3 py-2 border ${fieldErrors.phone ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
               />

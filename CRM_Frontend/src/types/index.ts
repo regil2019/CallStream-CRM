@@ -3,12 +3,13 @@ export interface User {
   email: string;
   name: string;
   role: "admin" | "manager" | "operator";
+  phone?: string;
 }
 
 export interface Client {
   id: string;
   name: string;
-  phone: string;
+  phone?: string;
   email?: string;
   company?: string;
   inn?: string;
