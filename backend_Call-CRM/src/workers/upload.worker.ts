@@ -17,6 +17,9 @@ const detectSeparator = (filePath: string): string => {
   const firstLine = buffer.split("\n")[0].replace(/^\uFEFF/, ""); // Remove BOM if exists
   const commas = (firstLine.match(/,/g) || []).length;
   const semicolons = (firstLine.match(/;/g) || []).length;
+  const tabs = (firstLine.match(/\t/g) || []).length;
+  
+  if (tabs > commas && tabs > semicolons) return "\t";
   return semicolons > commas ? ";" : ",";
 };
 
@@ -58,72 +61,49 @@ const processClients = async (data: {
           normalizedRow[cleanKey] = String(row[key] ?? "").trim();
         }
 
-        // 2️⃣ Mapeamento FUZZY de campos (Detecta variações como "тел", "телефон", "phone")
+        // 2️⃣ Mapeamento FUZZY e por CONTEÚDO
+        // Se as chaves forem números (0, 1, 2...), tentamos detectar por conteúdo
         const findValue = (
           rowObj: Record<string, string>,
           searchTerms: string[],
+          valueRegex?: RegExp,
         ) => {
           const keys = Object.keys(rowObj);
+          
+          // Tentar por nome da coluna (Fuzzy)
           const foundKey = keys.find((k) =>
             searchTerms.some((term) => k.includes(term)),
           );
-          return foundKey ? rowObj[foundKey] : undefined;
+          if (foundKey) return rowObj[foundKey];
+
+          // Tentar por conteúdo (Regex) se fornecido
+          if (valueRegex) {
+            const foundValue = Object.values(rowObj).find(val => valueRegex.test(val));
+            if (foundValue) return foundValue;
+          }
+
+          return undefined;
         };
 
-        const phoneValue = findValue(normalizedRow, [
-          "тел",
-          "phone",
-          "номер",
-          "tel",
-        ]);
-        const nameValue =
-          findValue(normalizedRow, [
-            "имя",
-            "name",
-            "фио",
-            "fio",
-            "nome",
-            "fullname",
-          ]) || "Unnamed";
-        const emailValue = findValue(normalizedRow, [
-          "email",
-          "mail",
-          "почт",
-          "емейл",
-        ]);
-        const innValue = findValue(normalizedRow, ["инн", "inn", "tax"]);
-        const companyValue = findValue(normalizedRow, [
-          "комп",
-          "company",
-          "org",
-          "empresa",
-          "организац",
-        ]);
-        const regionValue = findValue(normalizedRow, [
-          "рег",
-          "city",
-          "гор",
-          "regi",
-        ]);
+        const phoneRegex = /^\+?\d{9,15}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        const phoneValue = findValue(normalizedRow, ["тел", "phone", "номер", "tel"], phoneRegex);
+        const nameValue = findValue(normalizedRow, ["имя", "name", "фио", "fio", "nome", "fullname"]) || "Unnamed";
+        const emailValue = findValue(normalizedRow, ["email", "mail", "почт", "емейл"], emailRegex);
+        const innValue = findValue(normalizedRow, ["инн", "inn", "tax"], /^\d{10,12}$/);
+        const companyValue = findValue(normalizedRow, ["комп", "company", "org", "empresa", "организац"]);
+        const regionValue = findValue(normalizedRow, ["рег", "city", "гор", "regi"]);
         const tagsValue = findValue(normalizedRow, ["тег", "tag", "метка"]);
-        const responsibleValue = findValue(normalizedRow, [
-          "отв",
-          "менедж",
-          "resp",
-          "owner",
-        ]);
-        const notesValue = findValue(normalizedRow, [
-          "заметк",
-          "note",
-          "коммент",
-          "descr",
-        ]);
+        const responsibleValue = findValue(normalizedRow, ["отв", "менедж", "resp", "owner"]);
+        const notesValue = findValue(normalizedRow, ["заметк", "note", "коммент", "descr"]);
 
         // 🔍 LOG DE DIAGNÓSTICO (Primeiras 3 linhas para depuração)
         if (totalRows <= 3) {
           console.log(`--- [DEBUG ROW ${totalRows}] ---`);
           console.log("RAW KEYS:", Object.keys(row));
           console.log("NORMALIZED KEYS:", Object.keys(normalizedRow));
+          console.log("VALUES:", Object.values(normalizedRow));
           console.log("MAP RESULT -> Phone:", phoneValue, "Name:", nameValue);
           console.log("----------------------------");
         }
