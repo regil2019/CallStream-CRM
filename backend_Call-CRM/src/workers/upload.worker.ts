@@ -130,13 +130,13 @@ const processClients = async (data: {
 
         // 3️⃣ Sanitização
         let cleanPhone = phoneValue?.replace(/[^\d+]/g, "") || "";
+        
+        // Russia-specific normalization only if it looks like a Russian number
         if (cleanPhone.length === 11 && cleanPhone.startsWith("8")) {
           cleanPhone = "+7" + cleanPhone.substring(1);
-        }
-        if (cleanPhone.length === 11 && cleanPhone.startsWith("7")) {
+        } else if (cleanPhone.length === 11 && cleanPhone.startsWith("7")) {
           cleanPhone = "+" + cleanPhone;
-        }
-        if (cleanPhone.length === 10 && cleanPhone.startsWith("9")) {
+        } else if (cleanPhone.length === 10 && cleanPhone.startsWith("9")) {
           cleanPhone = "+7" + cleanPhone;
         }
 

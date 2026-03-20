@@ -36,8 +36,8 @@ export const isValidInn = (inn: string): boolean => {
 };
 
 export const isValidRussianPhone = (phone: string): boolean => {
-  // Supports +7XXXXXXXXXX or 8XXXXXXXXXX
-  return /^(?:\+7|8)\d{10}$/.test(phone);
+  // Loosened to support international formats (9-15 digits, optional +)
+  return /^\+?\d{9,15}$/.test(phone);
 };
 
 export const isValidEmail = (email: string): boolean => {
@@ -57,7 +57,7 @@ export const phoneSchema = z
   .string()
   .refine(
     isValidRussianPhone,
-    "Некорректный формат телефона. Используйте формат +7XXXXXXXXXX или 8XXXXXXXXXX",
+    "Некорректный формат телефона. Используйте международный формат (от 9 до 15 цифр)",
   )
   .optional()
   .nullable()

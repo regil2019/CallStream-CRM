@@ -32,8 +32,8 @@ export const registerSchema = z.object({
     .transform((val) => val.replace(/[^\d+]/g, ""))
     .refine((val) => {
       if (!val) return true;
-      // Allow +7 or 8 followed by 10 digits, or just 10 digits
-      const phoneRegex = /^(\+7|7|8)?\d{10}$/;
+      // Allow any phone with 9 to 15 digits
+      const phoneRegex = /^\+?\d{9,15}$/;
       return phoneRegex.test(val);
     }, "Некорректный формат телефона")
     .transform((val) => {
