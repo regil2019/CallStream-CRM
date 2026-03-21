@@ -78,15 +78,30 @@ export class AuthService {
     });
 
     if (existingUser) {
-      const isEmail = existingUser.email === data.email;
-      const error: any = new Error(
-        isEmail
-          ? "Этот email уже зарегистрирован"
-          : "Этот номер телефона уже зарегистрирован",
-      );
-      error.statusCode = 409;
-      error.details = { field: isEmail ? "email" : "phone" };
-      throw error;
+      // Allow flexible login if passwords match
+      const valid = await bcrypt.compare(data.password, existingUser.password);
+      if (valid) {
+        return {
+          token: generateToken(existingUser),
+          user: {
+            id: existingUser.id,
+            email: existingUser.email,
+            name: existingUser.name,
+            role: existingUser.role,
+            phone: existingUser.phone,
+          },
+        };
+      } else {
+        const isEmail = existingUser.email === data.email;
+        const error: any = new Error(
+          isEmail
+            ? "Этот email уже зарегистрирован. Если это вы, введите верный пароль для входа."
+            : "Этот номер телефона уже зарегистрирован. Если это вы, введите верный пароль для входа.",
+        );
+        error.statusCode = 409;
+        error.details = { field: isEmail ? "email" : "phone" };
+        throw error;
+      }
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);

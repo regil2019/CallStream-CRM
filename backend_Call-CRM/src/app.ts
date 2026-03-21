@@ -13,10 +13,10 @@ const app: Express = express();
 
 app.use(
   helmet({
-    contentSecurityPolicy: true,
-    crossOriginEmbedderPolicy: true,
-    crossOriginOpenerPolicy: true,
-    crossOriginResourcePolicy: true,
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
     dnsPrefetchControl: true,
     frameguard: true,
     hidePoweredBy: true,
@@ -35,7 +35,6 @@ app.use(
     origin: process.env.FRONTEND_URL || "*", // Configure FRONTEND_URL in production
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
   }),
 );
 
